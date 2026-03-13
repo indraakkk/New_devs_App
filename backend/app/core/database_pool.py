@@ -56,5 +56,5 @@ db_pool = DatabasePool()
 
 async def get_db_session() -> AsyncSession:
     """Dependency to get database session"""
-    async with db_pool.get_session() as session:
+    async with await db_pool.get_session() as session:
         yield session

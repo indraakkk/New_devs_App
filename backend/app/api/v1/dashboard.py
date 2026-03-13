@@ -45,7 +45,7 @@ async def get_tenant_properties(
     if not db_pool.session_factory:
         raise HTTPException(status_code=503, detail="Database unavailable")
 
-    async with db_pool.get_session() as session:
+    async with await db_pool.get_session() as session:
         query = text("""
             SELECT id, name, timezone
             FROM properties

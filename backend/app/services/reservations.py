@@ -45,7 +45,7 @@ async def calculate_total_revenue(property_id: str, tenant_id: str, month: int, 
         if not db_pool.session_factory:
             raise Exception("Database pool not available")
 
-        async with db_pool.get_session() as session:
+        async with await db_pool.get_session() as session:
             if month < 12:
                 end_month, end_year = month + 1, year
             else:
