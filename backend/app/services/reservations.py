@@ -51,8 +51,8 @@ async def calculate_total_revenue(property_id: str, tenant_id: str, month: int, 
             else:
                 end_month, end_year = 1, year + 1
 
-            start_date = f"{year}-{month:02d}-01"
-            end_date = f"{end_year}-{end_month:02d}-01"
+            start_date = datetime(year, month, 1)
+            end_date = datetime(end_year, end_month, 1)
 
             query = text("""
                 SELECT
@@ -63,8 +63,8 @@ async def calculate_total_revenue(property_id: str, tenant_id: str, month: int, 
                 JOIN properties p ON r.property_id = p.id AND r.tenant_id = p.tenant_id
                 WHERE r.property_id = :property_id
                   AND r.tenant_id = :tenant_id
-                  AND (r.check_in_date AT TIME ZONE p.timezone) >= CAST(:start_date AS timestamp)
-                  AND (r.check_in_date AT TIME ZONE p.timezone) < CAST(:end_date AS timestamp)
+                  AND (r.check_in_date AT TIME ZONE p.timezone) >= :start_date
+                  AND (r.check_in_date AT TIME ZONE p.timezone) < :end_date
                 GROUP BY r.property_id
             """)
 
