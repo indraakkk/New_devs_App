@@ -8,26 +8,9 @@ interface Property {
   timezone: string;
 }
 
-const MONTHS = [
-  { value: 1, label: "January" },
-  { value: 2, label: "February" },
-  { value: 3, label: "March" },
-  { value: 4, label: "April" },
-  { value: 5, label: "May" },
-  { value: 6, label: "June" },
-  { value: 7, label: "July" },
-  { value: 8, label: "August" },
-  { value: 9, label: "September" },
-  { value: 10, label: "October" },
-  { value: 11, label: "November" },
-  { value: 12, label: "December" },
-];
-
 const Dashboard: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [selectedProperty, setSelectedProperty] = useState('');
-  const [selectedMonth, setSelectedMonth] = useState(3);
-  const [selectedYear, setSelectedYear] = useState(2024);
   const [loadingProperties, setLoadingProperties] = useState(true);
 
   useEffect(() => {
@@ -63,31 +46,6 @@ const Dashboard: React.FC = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:items-end">
-                {/* Month/Year Selector */}
-                <div className="flex flex-col">
-                  <label className="text-xs font-medium text-gray-700 mb-1">Month</label>
-                  <select
-                    value={selectedMonth}
-                    onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                    className="block w-full sm:w-auto min-w-[140px] px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
-                  >
-                    {MONTHS.map((m) => (
-                      <option key={m.value} value={m.value}>{m.label}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-xs font-medium text-gray-700 mb-1">Year</label>
-                  <input
-                    type="number"
-                    value={selectedYear}
-                    onChange={(e) => setSelectedYear(Number(e.target.value))}
-                    min={2020}
-                    max={2030}
-                    className="block w-full sm:w-auto min-w-[90px] px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
-                  />
-                </div>
-
                 {/* Property Selector */}
                 <div className="flex flex-col">
                   <label className="text-xs font-medium text-gray-700 mb-1">Select Property</label>
@@ -116,8 +74,6 @@ const Dashboard: React.FC = () => {
             {selectedProperty && (
               <RevenueSummary
                 propertyId={selectedProperty}
-                month={selectedMonth}
-                year={selectedYear}
               />
             )}
           </div>
