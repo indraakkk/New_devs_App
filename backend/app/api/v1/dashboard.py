@@ -8,14 +8,16 @@ router = APIRouter()
 @router.get("/dashboard/summary")
 async def get_dashboard_summary(
     property_id: str,
+    month: int = 3,
+    year: int = 2024,
     current_user: dict = Depends(get_current_user)
 ) -> Dict[str, Any]:
 
     tenant_id = getattr(current_user, "tenant_id", None)
     if not tenant_id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Tenant ID not found for user")
-    
-    revenue_data = await get_revenue_summary(property_id, tenant_id)
+
+    revenue_data = await get_revenue_summary(property_id, tenant_id, month, year)
     
     return {
         "property_id": revenue_data['property_id'],
